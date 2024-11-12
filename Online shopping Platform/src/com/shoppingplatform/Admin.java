@@ -5,6 +5,11 @@ public class Admin extends User {
         super(id, name, email, password); // Call the superclass (User) constructor
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + ", Admin{role='Administrator'}";
+    }
+
     // Admin-specific methods can be added here
     public void manageProduct() {
         System.out.println("Managing products...");

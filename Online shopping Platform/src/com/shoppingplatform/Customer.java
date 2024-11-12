@@ -8,6 +8,11 @@ public class Customer extends User {
         this.loyaltyPoints = loyaltyPoints;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + ", Customer{loyaltyPoints=" + loyaltyPoints + "}";
+    }
+
     // Getter and setter for loyaltyPoints
     public int getLoyaltyPoints() {
         return loyaltyPoints;

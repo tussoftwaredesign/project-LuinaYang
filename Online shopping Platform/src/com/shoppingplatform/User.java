@@ -15,6 +15,12 @@ public class User {
         this.password = password;
     }
 
+    // Override the toString method to provide a basic user info
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", name='" + name + "', email='" + email + "'}";
+    }
+
     // Getters and Setters
     public int getId() {
         return id;
