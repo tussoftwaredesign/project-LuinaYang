@@ -5,13 +5,15 @@ public class Product {
     private String name;
     private double price;
     private ProductCategory category;
+    private int stockQuantity;
 
     // Constructor
-    public Product(int id, String name, double price, ProductCategory category) {
+    public Product(int id, String name, double price, ProductCategory category, int stockQuantity) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.category = category;
+        this.stockQuantity = stockQuantity;
     }
 
     // Getters and Setters
@@ -19,35 +21,26 @@ public class Product {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(ProductCategory category) {
-        this.category = category;
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
-    // Additional methods
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -55,6 +48,7 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", category=" + category +
+                ", stockQuantity=" + stockQuantity +
                 '}';
     }
 }

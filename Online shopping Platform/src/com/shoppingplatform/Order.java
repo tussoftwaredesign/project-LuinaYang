@@ -4,25 +4,23 @@ import java.util.Date;
 
 public class Order {
     private int orderId;
-    private Cart cart;
+    private Product[] orderItems; // Array to store order items
     private Date orderDate;
     private OrderStatus status;
 
-    // Constructor
+    // Constructor that takes Cart and converts it to an array of order items
     public Order(int orderId, Cart cart) {
         this.orderId = orderId;
-        this.cart = cart;
+        this.orderItems = new Product[cart.getProducts().size()];
+        cart.getProducts().toArray(orderItems); // Convert List to array
         this.orderDate = new Date(); // Set the order date to current date
         this.status = OrderStatus.PENDING;
+        cart.clearCart(); // Clear the cart after converting to order
     }
 
     // Getters and Setters
     public int getOrderId() {
         return orderId;
-    }
-
-    public Cart getCart() {
-        return cart;
     }
 
     public Date getOrderDate() {
@@ -42,6 +40,9 @@ public class Order {
         System.out.println("Order ID: " + orderId);
         System.out.println("Order Date: " + orderDate);
         System.out.println("Order Status: " + status);
-        cart.displayCart();
+        System.out.println("Order Items:");
+        for (Product item : orderItems) {
+            System.out.println(item);
+        }
     }
 }
