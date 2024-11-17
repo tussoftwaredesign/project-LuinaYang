@@ -15,6 +15,11 @@ public class User {
         this.password = password;
     }
 
+    // Overloaded constructor using this()
+    public User(int id, String name, String email) {
+        this(id, name, email, "default_password"); // Call the main constructor
+    }
+
     // Override the toString method to provide a basic user info
     @Override
     public String toString() {
