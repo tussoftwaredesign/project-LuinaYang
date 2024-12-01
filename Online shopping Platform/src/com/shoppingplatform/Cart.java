@@ -86,6 +86,6 @@ public class Cart {
         for (Product product : products) {
             System.out.println(product);
         }
-        System.out.println("Total price: $" + calculateTotal());
+        System.out.println("Total price: €" + calculateTotal());
     }
 }
