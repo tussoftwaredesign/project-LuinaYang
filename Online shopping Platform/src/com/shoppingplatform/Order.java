@@ -1,5 +1,6 @@
 package com.shoppingplatform;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class Order {
@@ -16,6 +17,11 @@ public class Order {
         this.orderDate = new Date(); // Set the order date to current date
         this.status = OrderStatus.PENDING;
         cart.clearCart(); // Clear the cart after converting to order
+    }
+
+    // Defensive Copy for getOrderItems
+    public Product[] getOrderItems() {
+        return Arrays.copyOf(orderItems, orderItems.length); // Return a copy of the array
     }
 
     // Getters and Setters
