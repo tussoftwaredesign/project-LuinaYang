@@ -6,8 +6,13 @@ public class Customer extends User implements Manageable {
     }
 
     // Implement login method
+
     @Override
     public void login(String email, String password) {
+        if (!validateEmail(email, password)) {
+            System.out.println("Login failed due to invalid email format.");
+            return;
+        }
         if (this.getEmail().equals(email) && this.getPassword().equals(password)) {
             System.out.println("Customer logged in successfully.");
         } else {
@@ -20,4 +25,10 @@ public class Customer extends User implements Manageable {
     public void viewProfile() {
         System.out.println("Customer Profile: " + this.toString());
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Role: Customer";
+    }
+
 }

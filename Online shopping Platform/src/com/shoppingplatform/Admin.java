@@ -10,6 +10,10 @@ public class Admin extends User implements Manageable {
     // Implement login method
     @Override
     public void login(String email, String password) {
+        if (!validateEmail(email, password)) {
+            System.out.println("Login failed due to invalid email format.");
+            return;
+        }
         if (this.getEmail().equals(email) && this.getPassword().equals(password)) {
             System.out.println("Admin logged in successfully.");
         } else {
@@ -44,4 +48,10 @@ public class Admin extends User implements Manageable {
             System.out.println("Product with ID " + productId + " not found.");
         }
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Role: Administrator";
+    }
+
 }
