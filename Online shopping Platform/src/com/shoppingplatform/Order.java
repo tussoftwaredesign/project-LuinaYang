@@ -5,13 +5,14 @@ import java.util.Date;
 
 public class Order {
     private int orderId;
+    private static int lastOrderId = 0; // Static variable to track the last order ID
     private Product[] orderItems; // Array to store order items
     private Date orderDate;
     private OrderStatus status;
 
     // Constructor that takes Cart and converts it to an array of order items
     public Order(int orderId, Cart cart) {
-        this.orderId = orderId;
+        this.orderId = ++lastOrderId; // Auto-increment the Order ID
         this.orderItems = new Product[cart.getProducts().size()];
         cart.getProducts().toArray(orderItems); // Convert List to array
         this.orderDate = new Date(); // Set the order date to current date
