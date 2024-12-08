@@ -1,5 +1,5 @@
-package com.shoppingplatform;
-
-public enum OrderStatus {
-    PENDING, SHIPPED, DELIVERED, CANCELED;
-}
+//package com.shoppingplatform;
+//
+//public enum OrderStatus {
+//    PENDING, SHIPPED, DELIVERED, CANCELED;
+//}

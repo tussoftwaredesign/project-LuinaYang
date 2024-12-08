@@ -8,14 +8,14 @@ public final class Order {
     private static int lastOrderId = 0; // Static variable to track the last order ID
     private final Product[] orderItems; // Array to store order items
     private final Date orderDate;
-    private final OrderStatus status;
+//    private final OrderStatus status;
 
     // Constructor
     public Order(Cart cart) {
         this.orderId = ++lastOrderId; // Auto-increment the Order ID
         this.orderItems = Arrays.copyOf(cart.getProducts().toArray(new Product[0]), cart.getProducts().size()); // Defensive copy
         this.orderDate = new Date(); // Set the order date to the current date
-        this.status = OrderStatus.PENDING;
+//        this.status = OrderStatus.PENDING;
         cart.clearCart(); // Clear the cart after converting to order
     }
 
@@ -32,9 +32,9 @@ public final class Order {
         return new Date(orderDate.getTime()); // Defensive copy of mutable Date
     }
 
-    public OrderStatus getStatus() {
-        return status;
-    }
+//    public OrderStatus getStatus() {
+//        return status;
+//    }
 
     // No setters to maintain immutability
 
@@ -42,7 +42,7 @@ public final class Order {
     public void displayOrderDetails() {
         System.out.println("Order ID: " + orderId);
         System.out.println("Order Date: " + orderDate);
-        System.out.println("Order Status: " + status);
+//        System.out.println("Order Status: " + status);
         System.out.println("Order Items:");
         for (Product item : orderItems) {
             System.out.println(item);
