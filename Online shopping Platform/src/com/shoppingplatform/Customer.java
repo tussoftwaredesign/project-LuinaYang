@@ -1,6 +1,6 @@
 package com.shoppingplatform;
 
-public class Customer extends User implements Manageable {
+public final class Customer extends User implements Manageable {
     public Customer(int id, String name, String email, String password) {
         super(id, name, email, password);
     }

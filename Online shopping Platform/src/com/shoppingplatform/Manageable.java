@@ -1,6 +1,7 @@
 package com.shoppingplatform;
 
-public interface Manageable {
+// Sealed interface Manageable
+public sealed interface Manageable permits Admin, Customer {
     void login(String email, String password);
     void viewProfile();
 

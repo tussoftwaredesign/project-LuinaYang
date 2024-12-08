@@ -1,6 +1,7 @@
 package com.shoppingplatform;
 
-public class User {
+// Sealed class User
+public sealed class User permits Admin, Customer {
     // Private fields for encapsulation
     private int id;
     private String name;

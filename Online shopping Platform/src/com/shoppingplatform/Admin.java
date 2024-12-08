@@ -2,7 +2,7 @@ package com.shoppingplatform;
 
 import java.util.List;
 
-public class Admin extends User implements Manageable {
+public final class Admin extends User implements Manageable {
     public Admin(int id, String name, String email, String password) {
         super(id, name, email, password);
     }
