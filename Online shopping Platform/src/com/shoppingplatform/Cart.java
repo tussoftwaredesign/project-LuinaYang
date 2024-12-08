@@ -34,14 +34,6 @@ public class Cart {
         }
     }
 
-    // Overloaded method to add a list of products
-    public void addProduct(List<Product> productList) {
-        products.addAll(productList);
-        for (Product product : productList) {
-            System.out.println(product.getName() + " added to the cart.");
-        }
-    }
-
 //    // Calculate total price
 //    public double calculateTotal() {
 //        double total = 0;
@@ -50,15 +42,6 @@ public class Cart {
 //        }
 //        return total;
 //    }
-
-    // Local Variable Type Inference(LVTI)
-    public double calculateTotal() {
-        var total = 0.0; // Using 'var' for type inference
-        for (var product : products) { // Using 'var' for loop variable
-            total += product.getPrice();
-        }
-        return total;
-    }
 
     // checkout method with Unchecked Exception
     public void checkout() {
@@ -78,14 +61,5 @@ public class Cart {
     public void clearCart() {
         products.clear();
         System.out.println("Cart has been cleared.");
-    }
-
-    // Display cart contents
-    public void displayCart() {
-        System.out.println("Cart contents:");
-        for (Product product : products) {
-            System.out.println(product);
-        }
-        System.out.println("Total price: €" + calculateTotal());
     }
 }

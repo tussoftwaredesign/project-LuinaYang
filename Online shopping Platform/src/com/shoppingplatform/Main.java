@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Predicate;
 
 public class Main {
     public static void main(String[] args) {
@@ -152,8 +153,9 @@ public class Main {
                     try {
                         String idStr = JOptionPane.showInputDialog("Enter Product ID to Add to Cart:");
                         int productId = Integer.parseInt(idStr);
+                        Predicate<Product> isProductAvailable = p -> p.getId() == productId && p.getStockQuantity() > 0;
                         Product selectedProduct = products.stream()
-                                .filter(p -> p.getId() == productId)
+                                .filter(isProductAvailable)
                                 .findFirst()
                                 .orElse(null);
                         if (selectedProduct != null) {
@@ -168,7 +170,7 @@ public class Main {
                 }
                 case 2 -> {
                     StringBuilder cartContents = new StringBuilder("Cart Contents:\n");
-                    cart.getProducts().forEach(product -> cartContents.append(product).append("\n"));
+                    cart.getProducts().forEach(cartContents::append); //
                     JOptionPane.showMessageDialog(null, cartContents.toString());
                 }
                 case 3 -> {
