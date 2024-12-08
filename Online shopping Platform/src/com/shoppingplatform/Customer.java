@@ -29,6 +29,10 @@ public final class Customer extends User implements Manageable {
         System.out.println("Customer Profile: " + this.toString());
     }
 
+    public List<OrderSummary> getOrderHistory() {
+        return orderHistory;
+    }
+
     // Local Variable Type Inference(LVTI)
     public void addOrderToHistory(Order order) {
         var totalPrice = 0.0;

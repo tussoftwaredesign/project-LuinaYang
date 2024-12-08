@@ -12,12 +12,12 @@ public class Main {
 
         // Initialize data
         List<Product> products = new ArrayList<>();
-        products.add(new Product(1, "Laptop", 1200.0, ProductCategory.ELECTRONICS, 10));
-        products.add(new Product(2, "Jeans", 50.0, ProductCategory.CLOTHING, 5));
-        products.add(new Product(3, "Microwave", 200.0, ProductCategory.HOME_APPLIANCES, 3));
+        products.add(new Product(1, "MacBook Pro 16", 1200.0, ProductCategory.LAPTOPS, 10));
+        products.add(new Product(2, "Dell XPS", 900.0, ProductCategory.COMPUTERS, 5));
+        products.add(new Product(3, "Samsung Galaxy Tab S8", 600.0, ProductCategory.SMARTPHONES, 10));
 
-        Admin admin = new Admin(1, "Admin", "admin@example.com", "password");
-        Customer customer = new Customer(2, "Customer", "customer@example.com", "password");
+        Admin admin = new Admin(1, "Admin", "user1@shop.com", "123");
+        Customer customer = new Customer(2, "Customer", "user2@shop.com", "321");
 
         Cart cart = new Cart();
         Order order = null; // Placeholder for orders
@@ -99,7 +99,7 @@ public class Main {
                         String idStr = JOptionPane.showInputDialog("Enter Product ID:");
                         String name = JOptionPane.showInputDialog("Enter Product Name:");
                         String priceStr = JOptionPane.showInputDialog("Enter Product Price:");
-                        String categoryStr = JOptionPane.showInputDialog("Enter Product Category (ELECTRONICS, CLOTHING, HOME_APPLIANCES, BOOKS, BEAUTY):");
+                        String categoryStr = JOptionPane.showInputDialog("Enter Product Category (LAPTOPS, COMPUTERS, SMARTPHONES,CAMERAS):");
                         String stockStr = JOptionPane.showInputDialog("Enter Stock Quantity:");
 
                         int id = Integer.parseInt(idStr);
@@ -119,7 +119,7 @@ public class Main {
                         String idStr = JOptionPane.showInputDialog("Enter Product ID to Remove:");
                         int productId = Integer.parseInt(idStr);
                         admin.removeProduct(products, productId);
-                        JOptionPane.showMessageDialog(null, "Product removed successfully if it existed.");
+                        JOptionPane.showMessageDialog(null, "Product removed successfully.");
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "Error removing product: " + e.getMessage());
                     }
@@ -182,7 +182,18 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Error during checkout: " + e.getMessage());
                     }
                 }
-                case 4 -> customer.viewOrderHistory();
+                case 4 -> {
+                    if (customer.getOrderHistory().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No orders found.");
+                    } else {
+                        StringBuilder orderHistory = new StringBuilder("Order History:\n");
+                        for (OrderSummary summary : customer.getOrderHistory()) {
+                            orderHistory.append(summary.toString()).append("\n");
+                        }
+                        JOptionPane.showMessageDialog(null, orderHistory.toString());
+                    }
+                }
+
                 case 5 -> {
                     customer.logout();
                     logout = true;
