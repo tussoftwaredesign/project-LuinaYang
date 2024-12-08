@@ -19,7 +19,7 @@ public class Main {
         Customer customer = new Customer(2, "Customer", "customer@example.com", "password");
 
         Cart cart = new Cart();
-        Order order = null;
+        Order order = null; // Placeholder for orders
 
         String[] userTypes = {"Admin", "Customer", "Exit"};
         boolean exit = false;
@@ -37,7 +37,7 @@ public class Main {
                 }
                 case 1 -> {
                     if (authenticateUser(customer)) {
-                        handleCustomerActions(customer, products, cart, order);
+                        handleCustomerActions(customer, products, cart);
                     }
                 }
                 case 2 -> {
@@ -132,7 +132,7 @@ public class Main {
     }
 
     // Handle Customer actions
-    private static void handleCustomerActions(Customer customer, List<Product> products, Cart cart, Order order) {
+    private static void handleCustomerActions(Customer customer, List<Product> products, Cart cart) {
         String[] customerOptions = {"View Products", "Add to Cart", "View Cart", "Checkout", "View Order History", "Logout"};
         boolean logout = false;
 
@@ -168,14 +168,14 @@ public class Main {
                 }
                 case 2 -> {
                     StringBuilder cartContents = new StringBuilder("Cart Contents:\n");
-                    cart.displayCart();
+                    cart.getProducts().forEach(product -> cartContents.append(product).append("\n"));
                     JOptionPane.showMessageDialog(null, cartContents.toString());
                 }
                 case 3 -> {
                     try {
-                        order = new Order(1, cart);
+                        Order order = new Order(cart);
                         customer.addOrderToHistory(order);
-                        JOptionPane.showMessageDialog(null, "Order placed successfully!");
+                        JOptionPane.showMessageDialog(null, "Order placed successfully!\nOrder ID: " + order.getOrderId());
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "Error during checkout: " + e.getMessage());
                     }

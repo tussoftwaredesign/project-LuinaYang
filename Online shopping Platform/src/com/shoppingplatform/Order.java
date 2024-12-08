@@ -3,44 +3,40 @@ package com.shoppingplatform;
 import java.util.Arrays;
 import java.util.Date;
 
-public class Order {
-    private int orderId;
+public final class Order {
+    private final int orderId;
     private static int lastOrderId = 0; // Static variable to track the last order ID
-    private Product[] orderItems; // Array to store order items
-    private Date orderDate;
-    private OrderStatus status;
+    private final Product[] orderItems; // Array to store order items
+    private final Date orderDate;
+    private final OrderStatus status;
 
-    // Constructor that takes Cart and converts it to an array of order items
-    public Order(int orderId, Cart cart) {
+    // Constructor
+    public Order(Cart cart) {
         this.orderId = ++lastOrderId; // Auto-increment the Order ID
-        this.orderItems = new Product[cart.getProducts().size()];
-        cart.getProducts().toArray(orderItems); // Convert List to array
-        this.orderDate = new Date(); // Set the order date to current date
+        this.orderItems = Arrays.copyOf(cart.getProducts().toArray(new Product[0]), cart.getProducts().size()); // Defensive copy
+        this.orderDate = new Date(); // Set the order date to the current date
         this.status = OrderStatus.PENDING;
         cart.clearCart(); // Clear the cart after converting to order
     }
 
-    // Defensive Copy for getOrderItems
-    public Product[] getOrderItems() {
-        return Arrays.copyOf(orderItems, orderItems.length); // Return a copy of the array
-    }
-
-    // Getters and Setters
+    // Getters with defensive copying for array
     public int getOrderId() {
         return orderId;
     }
 
+    public Product[] getOrderItems() {
+        return Arrays.copyOf(orderItems, orderItems.length); // Return a copy of the array
+    }
+
     public Date getOrderDate() {
-        return orderDate;
+        return new Date(orderDate.getTime()); // Defensive copy of mutable Date
     }
 
     public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
+    // No setters to maintain immutability
 
     // Display order details
     public void displayOrderDetails() {
