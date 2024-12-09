@@ -37,15 +37,4 @@ public final class Order {
 //    }
 
     // No setters to maintain immutability
-
-    // Display order details
-    public void displayOrderDetails() {
-        System.out.println("Order ID: " + orderId);
-        System.out.println("Order Date: " + orderDate);
-//        System.out.println("Order Status: " + status);
-        System.out.println("Order Items:");
-        for (Product item : orderItems) {
-            System.out.println(item);
-        }
-    }
 }

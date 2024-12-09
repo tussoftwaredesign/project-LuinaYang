@@ -42,17 +42,6 @@ public final class Customer extends User implements Manageable {
         orderHistory.add(new OrderSummary(order.getOrderId(), totalPrice, order.getOrderDate()));
     }
 
-    public void viewOrderHistory() {
-        if (orderHistory.isEmpty()) {
-            System.out.println("No orders found.");
-        } else {
-            System.out.println("Order History:");
-            for (OrderSummary summary : orderHistory) {
-                System.out.println(summary);
-            }
-        }
-    }
-
     @Override
     public String toString() {
         return super.toString() + ", Role: Customer";

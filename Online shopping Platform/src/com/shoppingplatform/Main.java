@@ -20,7 +20,6 @@ public class Main {
         Customer customer = new Customer(2, "Customer", "user2@shop.com", "321");
 
         Cart cart = new Cart();
-        Order order = null; // Placeholder for orders
 
         String[] userTypes = {"Admin", "Customer", "Exit"};
         boolean exit = false;
