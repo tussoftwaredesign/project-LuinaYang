@@ -27,5 +27,4 @@ public sealed interface Manageable permits Admin, Customer {
         }
         return true;
     }
-
 }
