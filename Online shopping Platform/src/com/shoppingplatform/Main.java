@@ -2,6 +2,7 @@ package com.shoppingplatform;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Predicate;
@@ -142,12 +143,48 @@ public class Main {
 
             switch (choice) {
                 case 0 -> {
-                    StringBuilder productList = new StringBuilder("Product List:\n");
-                    for (Product product : products) {
-                        productList.append(product.toString()).append("\n");
+                    boolean back = false;
+                    while (!back) {
+                        String[] viewOptions = {
+                                "Sorted by Price",
+                                "Original Order",
+                                "Back"
+                        };
+
+                        int viewChoice = JOptionPane.showOptionDialog(
+                                null,
+                                "Choose how to view the products:",
+                                "View Products",
+                                JOptionPane.DEFAULT_OPTION,
+                                JOptionPane.INFORMATION_MESSAGE,
+                                null,
+                                viewOptions,
+                                viewOptions[0]
+                        );
+
+                        StringBuilder productList = new StringBuilder();
+
+                        switch (viewChoice) {
+                            case 0 -> {
+                                productList.append("Product List (Sorted by Price Ascending):\n");
+                                products.stream()
+                                        .sorted(Comparator.comparing(Product::getPrice))
+                                        .forEach(product -> productList.append(product.toString()).append("\n"));
+                                JOptionPane.showMessageDialog(null, productList.toString());
+                            }
+                            case 1 -> {
+                                productList.append("Product List (Original Order):\n");
+                                products.forEach(product -> productList.append(product.toString()).append("\n"));
+                                JOptionPane.showMessageDialog(null, productList.toString());
+                            }
+                            case 2, JOptionPane.CLOSED_OPTION -> {
+                                back = true; // Exit to main customer menu
+                            }
+                        }
                     }
-                    JOptionPane.showMessageDialog(null, productList.toString());
                 }
+
+
                 case 1 -> {
                     try {
                         String idStr = JOptionPane.showInputDialog("Enter Product ID to Add to Cart:");
