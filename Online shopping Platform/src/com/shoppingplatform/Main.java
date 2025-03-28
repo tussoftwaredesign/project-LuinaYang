@@ -80,7 +80,14 @@ public class Main {
 
     // Handle Admin actions
     private static void handleAdminActions(Admin admin, List<Product> products) {
-        String[] adminOptions = {"View Products", "Add Product", "Remove Product", "Logout"};
+        String[] adminOptions = {
+                "View Products",
+                "Add Product",
+                "Remove Product",
+                "View Product Statistics", // new
+                "Logout"
+        };
+
         boolean logout = false;
 
         while (!logout) {
@@ -125,7 +132,28 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Error removing product: " + e.getMessage());
                     }
                 }
+
                 case 3 -> {
+                    long totalProducts = products.stream().count();
+
+                    long uniqueCategories = products.stream()
+                            .map(Product::getCategory)
+                            .distinct()
+                            .count();
+
+                    int totalStock = products.stream()
+                            .mapToInt(Product::getStockQuantity)
+                            .sum();
+
+                    String summary = "Product Statistics:\n\n" +
+                            "Total Products: " + totalProducts + "\n" +
+                            "Unique Categories: " + uniqueCategories + "\n" +
+                            "Total Stock (All Products): " + totalStock;
+
+                    JOptionPane.showMessageDialog(null, summary);
+                }
+
+                case 4 -> {
                     admin.logout();
                     logout = true;
                 }
