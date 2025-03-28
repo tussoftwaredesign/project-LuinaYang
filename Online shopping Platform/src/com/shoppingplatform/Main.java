@@ -16,6 +16,7 @@ public class Main {
         products.add(new Product(1, "MacBook Pro 16", 1200.0, ProductCategory.LAPTOPS, 10));
         products.add(new Product(2, "Dell XPS", 900.0, ProductCategory.COMPUTERS, 5));
         products.add(new Product(3, "Samsung Galaxy Tab S8", 600.0, ProductCategory.SMARTPHONES, 10));
+        products.add(new Product(4, "Redmi K70", 300.0, ProductCategory.SMARTPHONES, 0));
 
         Admin admin = new Admin(1, "Admin", "user1@shop.com", "123");
         Customer customer = new Customer(2, "Customer", "user2@shop.com", "321");
@@ -148,6 +149,7 @@ public class Main {
                         String[] viewOptions = {
                                 "Sorted by Price",
                                 "Original Order",
+                                "In-Stock Products",
                                 "Back"
                         };
 
@@ -177,7 +179,19 @@ public class Main {
                                 products.forEach(product -> productList.append(product.toString()).append("\n"));
                                 JOptionPane.showMessageDialog(null, productList.toString());
                             }
-                            case 2, JOptionPane.CLOSED_OPTION -> {
+
+                            case 2 -> {
+                                productList.append("In-Stock Products:\n");
+                                Predicate<Product> inStock = p -> p.getStockQuantity() > 0;
+
+                                products.stream()
+                                        .filter(inStock)
+                                        .forEach(product -> productList.append(product.toString()).append("\n"));
+
+                                JOptionPane.showMessageDialog(null, productList.toString());
+                            }
+
+                            case 3, JOptionPane.CLOSED_OPTION -> {
                                 back = true; // Exit to main customer menu
                             }
                         }
