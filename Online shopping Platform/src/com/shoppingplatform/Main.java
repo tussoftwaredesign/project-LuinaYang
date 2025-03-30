@@ -1,11 +1,9 @@
 package com.shoppingplatform;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -176,7 +174,7 @@ public class Main {
                     while (!back) {
                         String[] viewOptions = {
                                 "Sorted by Price",
-                                "Original Order",
+                                "Sorted by Category",
                                 "In-Stock Products",
                                 "Back"
                         };
@@ -202,9 +200,22 @@ public class Main {
                                         .forEach(product -> productList.append(product.toString()).append("\n"));
                                 JOptionPane.showMessageDialog(null, productList.toString());
                             }
-                            case 1 -> {
-                                productList.append("Product List (Original Order):\n");
-                                products.forEach(product -> productList.append(product.toString()).append("\n"));
+                            case 1 -> { // Group by Category
+                                Map<ProductCategory, List<Product>> grouped = products.stream()
+                                        .collect(Collectors.groupingBy(Product::getCategory));
+
+                                productList.append("Products Grouped by Category:\n\n");
+
+                                grouped.forEach((category, productGroup) -> {
+                                    productList.append("Category: ").append(category).append("\n");
+                                    productGroup.forEach(p -> productList.append("  - ")
+                                            .append(p.getName())
+                                            .append(" (€")
+                                            .append(p.getPrice())
+                                            .append(")\n"));
+                                    productList.append("\n");
+                                });
+
                                 JOptionPane.showMessageDialog(null, productList.toString());
                             }
 
