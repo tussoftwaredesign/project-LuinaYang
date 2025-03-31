@@ -2,6 +2,7 @@ package com.shoppingplatform;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -192,12 +193,14 @@ public class Main {
 
                         StringBuilder productList = new StringBuilder();
 
+                        Consumer<Product> displayProduct = product -> productList.append(product.toString()).append("\n");
+
                         switch (viewChoice) {
                             case 0 -> {
                                 productList.append("Product List (Sorted by Price Ascending):\n");
                                 products.stream()
                                         .sorted(Comparator.comparing(Product::getPrice))
-                                        .forEach(product -> productList.append(product.toString()).append("\n"));
+                                        .forEach(displayProduct);
                                 JOptionPane.showMessageDialog(null, productList.toString());
                             }
                             case 1 -> { // Group by Category
@@ -222,11 +225,9 @@ public class Main {
                             case 2 -> {
                                 productList.append("In-Stock Products:\n");
                                 Predicate<Product> inStock = p -> p.getStockQuantity() > 0;
-
                                 products.stream()
                                         .filter(inStock)
-                                        .forEach(product -> productList.append(product.toString()).append("\n"));
-
+                                        .forEach(displayProduct);
                                 JOptionPane.showMessageDialog(null, productList.toString());
                             }
 
