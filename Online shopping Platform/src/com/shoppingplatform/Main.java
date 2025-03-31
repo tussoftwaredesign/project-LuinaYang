@@ -84,6 +84,7 @@ public class Main {
                 "Add Product",
                 "Remove Product",
                 "View Product Statistics", // new
+                "Check Inventory Health", // new
                 "Logout"
         };
 
@@ -153,6 +154,22 @@ public class Main {
                 }
 
                 case 4 -> {
+                    boolean allInStock = products.stream()
+                            .allMatch(product -> product.getStockQuantity() > 0);
+
+                    if (allInStock) {
+                        JOptionPane.showMessageDialog(null, "✅ All products are currently in stock.");
+                    } else {
+                        // List out of stock items
+                        StringBuilder outOfStockList = new StringBuilder("❌ Some products are out of stock:\n\n");
+                        products.stream()
+                                .filter(p -> p.getStockQuantity() <= 0)
+                                .forEach(p -> outOfStockList.append(p.toString()).append("\n"));
+                        JOptionPane.showMessageDialog(null, outOfStockList.toString());
+                    }
+                }
+
+                case 5 -> {
                     admin.logout();
                     logout = true;
                 }
