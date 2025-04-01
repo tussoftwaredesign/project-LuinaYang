@@ -1,6 +1,10 @@
 package com.shoppingplatform;
 
 import javax.swing.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -85,6 +89,7 @@ public class Main {
                 "Remove Product",
                 "View Product Statistics", // new
                 "Check Inventory Health", // new
+                "Export Product List to File", //new
                 "Logout"
         };
 
@@ -170,6 +175,23 @@ public class Main {
                 }
 
                 case 5 -> {
+                    try {
+                        List<String> productLines = products.stream()
+                                .map(Product::toString)
+                                .collect(Collectors.toList());
+
+                        Path filePath = Paths.get("products.txt");
+                        Files.write(filePath, productLines, StandardCharsets.UTF_8);
+
+                        JOptionPane.showMessageDialog(null,
+                                "✅ Product list exported successfully to 'products.txt'");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null,
+                                "❌ Failed to export product list: " + e.getMessage());
+                    }
+                }
+                
+                case 6 -> {
                     admin.logout();
                     logout = true;
                 }
