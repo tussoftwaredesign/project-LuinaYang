@@ -1,5 +1,8 @@
 package com.shoppingplatform;
 
+import java.util.ResourceBundle;
+import java.util.Locale;
+
 import javax.swing.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -11,8 +14,15 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Main {
+    private static ResourceBundle bundle;
+
     public static void main(String[] args) {
-        Locale.setDefault(Locale.ENGLISH);
+        Locale.setDefault(Locale.ENGLISH); // or Locale.CHINESE
+        bundle = ResourceBundle.getBundle(
+                "messages",
+                Locale.getDefault(),
+                ResourceBundle.Control.getControl(ResourceBundle.Control.FORMAT_PROPERTIES)
+        );
 
         // Initialize data
         List<Product> products = new ArrayList<>();
@@ -26,12 +36,19 @@ public class Main {
 
         Cart cart = new Cart();
 
-        String[] userTypes = {"Admin", "Customer", "Exit"};
+        String[] userTypes = {
+                bundle.getString("button.admin"),
+                bundle.getString("button.customer"),
+                bundle.getString("button.exit")
+        };
+
         boolean exit = false;
 
         while (!exit) {
             // User type selection
-            int userTypeChoice = JOptionPane.showOptionDialog(null, "Select User Type", "Shopping Platform",
+            int userTypeChoice = JOptionPane.showOptionDialog(null,
+                    bundle.getString("user.select.type"),
+                    bundle.getString("platform.title"),
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, userTypes, userTypes[0]);
 
             switch (userTypeChoice) {
@@ -47,7 +64,7 @@ public class Main {
                 }
                 case 2 -> {
                     exit = true;
-                    JOptionPane.showMessageDialog(null, "Thank you for using the shopping platform!");
+                    JOptionPane.showMessageDialog(null, bundle.getString("thank.you"));
                 }
             }
         }
@@ -55,21 +72,21 @@ public class Main {
 
     // Authenticate user login
     private static boolean authenticateUser(Manageable user) {
-        String email = JOptionPane.showInputDialog("Enter your email:");
-        String password = JOptionPane.showInputDialog("Enter your password:");
+        String email = JOptionPane.showInputDialog(bundle.getString("input.enter.email"));
+        String password = JOptionPane.showInputDialog(bundle.getString("input.enter.password"));
         user.login(email, password);
 
         switch (user) {
             case Admin adminUser -> {
                 if (adminUser.getEmail().equals(email) && adminUser.getPassword().equals(password)) {
-                    JOptionPane.showMessageDialog(null, "Login successful as Admin!");
+                    JOptionPane.showMessageDialog(null, bundle.getString("login.success.admin"));
                     user.viewProfile();
                     return true;
                 }
             }
             case Customer customerUser -> {
                 if (customerUser.getEmail().equals(email) && customerUser.getPassword().equals(password)) {
-                    JOptionPane.showMessageDialog(null, "Login successful as Customer!");
+                    JOptionPane.showMessageDialog(null, bundle.getString("login.success.customer"));
                     user.viewProfile();
                     return true;
                 }
@@ -77,26 +94,26 @@ public class Main {
             default -> JOptionPane.showMessageDialog(null, "Login failed. Unknown user type.");
         }
 
-        JOptionPane.showMessageDialog(null, "Login failed. Please try again.");
+        JOptionPane.showMessageDialog(null, bundle.getString("login.failed"));
         return false;
     }
 
     // Handle Admin actions
     private static void handleAdminActions(Admin admin, List<Product> products) {
         String[] adminOptions = {
-                "View Products",
-                "Add Product",
-                "Remove Product",
-                "View Product Statistics", // new
-                "Check Inventory Health", // new
-                "Export Product List to File", //new
-                "Logout"
+                bundle.getString("menu.admin.view.products"),
+                bundle.getString("menu.admin.add.product"),
+                bundle.getString("menu.admin.remove.product"),
+                bundle.getString("menu.admin.view.statistics"),
+                bundle.getString("menu.admin.check.inventory"),
+                bundle.getString("menu.admin.export.file"),
+                bundle.getString("menu.admin.logout")
         };
 
         boolean logout = false;
 
         while (!logout) {
-            int choice = JOptionPane.showOptionDialog(null, "Choose an Action", "Admin Actions",
+            int choice = JOptionPane.showOptionDialog(null, bundle.getString("menu.choose.action"), "Admin Actions",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, adminOptions, adminOptions[0]);
 
             switch (choice) {
@@ -190,7 +207,7 @@ public class Main {
                                 "❌ Failed to export product list: " + e.getMessage());
                     }
                 }
-                
+
                 case 6 -> {
                     admin.logout();
                     logout = true;
@@ -201,11 +218,19 @@ public class Main {
 
     // Handle Customer actions
     private static void handleCustomerActions(Customer customer, List<Product> products, Cart cart) {
-        String[] customerOptions = {"View Products", "Add to Cart", "View Cart", "Checkout", "View Order History", "Logout"};
+        String[] customerOptions = {
+                bundle.getString("menu.customer.view.products"),
+                bundle.getString("menu.customer.add.to.cart"),
+                bundle.getString("menu.customer.view.cart"),
+                bundle.getString("menu.customer.checkout"),
+                bundle.getString("menu.customer.order.history"),
+                bundle.getString("menu.customer.logout")
+        };
+
         boolean logout = false;
 
         while (!logout) {
-            int choice = JOptionPane.showOptionDialog(null, "Choose an Action", "Customer Actions",
+            int choice = JOptionPane.showOptionDialog(null, bundle.getString("menu.choose.action"), "Customer Actions",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, customerOptions, customerOptions[0]);
 
             switch (choice) {
