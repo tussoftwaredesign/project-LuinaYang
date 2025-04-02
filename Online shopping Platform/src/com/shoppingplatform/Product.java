@@ -16,6 +16,14 @@ public class Product {
         this.stockQuantity = stockQuantity;
     }
 
+    public synchronized boolean purchase(int quantity) {
+        if (stockQuantity >= quantity) {
+            stockQuantity -= quantity;
+            return true;
+        }
+        return false;
+    }
+
     // Getters and Setters
     public int getId() {
         return id;

@@ -9,6 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -26,7 +30,7 @@ public class Main {
 
         // Initialize data
         List<Product> products = new ArrayList<>();
-        products.add(new Product(1, "MacBook Pro 16", 1200.0, ProductCategory.LAPTOPS, 10));
+        products.add(new Product(1, "MacBook Pro 16", 1200.0, ProductCategory.LAPTOPS, 3));
         products.add(new Product(2, "Dell XPS", 900.0, ProductCategory.COMPUTERS, 5));
         products.add(new Product(3, "Samsung Galaxy Tab S8", 600.0, ProductCategory.SMARTPHONES, 10));
         products.add(new Product(4, "Redmi K70", 300.0, ProductCategory.SMARTPHONES, 0));
@@ -107,6 +111,7 @@ public class Main {
                 bundle.getString("menu.admin.view.statistics"),
                 bundle.getString("menu.admin.check.inventory"),
                 bundle.getString("menu.admin.export.file"),
+                bundle.getString("menu.admin.concurrent.order.simulation"),
                 bundle.getString("menu.admin.logout")
         };
 
@@ -209,6 +214,54 @@ public class Main {
                 }
 
                 case 6 -> {
+                    Product target = products.stream().filter(p -> p.getId() == 1).findFirst().orElse(null);
+                    // the stock quantity of product(id = 1) is 3
+
+                    if (target == null) {
+                        JOptionPane.showMessageDialog(null, "❌ Product not found.");
+                        return;
+                    }
+
+                    int simulatedBuyers = 5;
+                    ExecutorService executor = Executors.newFixedThreadPool(simulatedBuyers);
+
+                    List<Callable<String>> tasks = new ArrayList<>();
+
+                    // Create multiple mock customers and place orders simultaneously
+                    for (int i = 1; i <= simulatedBuyers; i++) {
+                        final int customerId = i;
+                        tasks.add(() -> {
+                            boolean success = target.purchase(1);
+                            Thread.sleep(100);
+                            if (success) {
+                                return "Customer " + customerId + " ✅ Order placed successfully.";
+                            } else {
+                                return "Customer " + customerId + " ❌ Order failed (Out of stock)";
+                            }
+                        });
+                    }
+
+                    try {
+                        List<Future<String>> results = executor.invokeAll(tasks);
+                        StringBuilder log = new StringBuilder("Concurrent Order Simulation:\n\n");
+
+                        for (Future<String> future : results) {
+                            log.append(future.get()).append("\n");
+                        }
+
+                        log.append("\nRemaining stock: ").append(target.getStockQuantity());
+
+                        JOptionPane.showMessageDialog(null, log.toString());
+
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "❌ Error during simulation: " + e.getMessage());
+                    } finally {
+                        executor.shutdown();
+                    }
+                }
+
+
+                case 7 -> {
                     admin.logout();
                     logout = true;
                 }
